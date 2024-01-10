@@ -12,7 +12,7 @@ class Admin extends Plantilla
                 <div class="mdl-layout__header-row">
                     <div class="mdl-layout-spacer"></div>
                     <div class="avatar-dropdown" id="icon">
-                        <span class="nombre-usuario">'.$_SESSION['usuario'].'</span>
+                        <span class="nombre-usuario">' . $_SESSION['usuario'] . '</span>
                         <img class="perfil-usuario"src="Recursos/Imagenes/Logos/user.png">
                     </div>
                     <!-- Account dropdawn-->
@@ -21,8 +21,8 @@ class Admin extends Plantilla
                         <li class="mdl-list__item mdl-list__item--two-line">
                             <span class="mdl-list__item-primary-content">
                                 <span class="material-icons mdl-list__item-avatar"></span>
-                                <span>'.$_SESSION['usuario'].'</span>
-                                <span class="mdl-list__item-sub-title">'.$_SESSION['correo'].'</span>
+                                <span>' . $_SESSION['usuario'] . '</span>
+                                <span class="mdl-list__item-sub-title">' . $_SESSION['correo'] . '</span>
                             </span>
                         </li>
                         <li class="list__item--border-top"></li>
@@ -84,7 +84,7 @@ class Admin extends Plantilla
     }
     public function crearMain()
     {
-        $testimonios = $this -> MostrarTestimonios();
+        $testimonios = $this->MostrarTestimonios();
         echo '   
             <main class="mdl-layout__content">
                 <div class="mdl-grid mdl-grid--no-spacing dashboard">
@@ -183,7 +183,7 @@ class Admin extends Plantilla
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        '.$testimonios.'
+                                        ' . $testimonios . '
                                     </tbody>
                                 </table>
                             </div>
@@ -193,33 +193,35 @@ class Admin extends Plantilla
 
             </main>
         </div>
-        ';   
-        
+        ';
+
         if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["opcion"])) {
             $opcion = $_POST["opcion"];
             switch ($opcion) {
                 case 1:
-                    $habilitado=$_POST['habilitadoE'];
-                    $codigo=$_POST['codigo_valor'];
-
-                    $conexion = Conexion::getInstance()->getConexion();
-                    $consulta = "UPDATE testimonios SET Hab_Tes='$habilitado' WHERE Cod_Tes='$codigo'";
-                    $resultado = $conexion->prepare($consulta);
-                    $resultado->execute();
+                    $habilitado = $_POST['habilitadoE'];
+                    if ($habilitado === "Habilitado" || $habilitado === "Deshabilidato") {
+                        $codigo = $_POST['codigo_valor'];
+                        
+                        $conexion = Conexion::getInstance()->getConexion();
+                        $consulta = "UPDATE testimonios SET Hab_Tes='$habilitado' WHERE Cod_Tes='$codigo'";
+                        $resultado = $conexion->prepare($consulta);
+                        $resultado->execute();
+                    }
                     header("location:Admin.php");
                     break;
-                case 2:            
-                
+                case 2:
+
                     $codigo = $_POST['codigo_val'];
-                    
+
                     $conexion = Conexion::getInstance()->getConexion();
                     $consulta = "DELETE FROM testimonios WHERE Cod_Tes = :codigo";
                     $resultado = $conexion->prepare($consulta);
                     $resultado->bindParam(':codigo', $codigo, PDO::PARAM_STR);
                     $resultado->execute();
-                    
+
                     header("Location: Admin.php");
-                    
+
                     break;
             }
         }

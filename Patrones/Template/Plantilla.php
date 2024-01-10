@@ -43,7 +43,7 @@
             
 
         public function crearPagina(){
-            $this -> crearHeader();
+            /* $this -> crearHeader(); */
             $this -> crearMain();
             $this -> crearFooter();
         }
