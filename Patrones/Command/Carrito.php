@@ -22,13 +22,16 @@
                 $consulta = "INSERT INTO carrito (Usu_Car, Pro_Car, Pre_Car, Ima_Car) VALUES (?, ?, ?, ?)";
                 $resultado = $conexion->prepare($consulta);
                 $resultado->execute([$this->usuario, $this->producto, $this->precio, $this->foto]);
+            
+                // Agregar mensajes de registro
+                error_log("Consulta SQL: " . $consulta);
+                error_log("Valores: Usuario = " . $this->usuario . ", Producto = " . $this->producto . ", Precio = " . $this->precio . ", Foto = " . $this->foto);
             } catch (PDOException $e) {
                 // Maneja la excepción específica de la base de datos
                 error_log("Error en la base de datos: " . $e->getMessage());
-                
                 throw new Exception("Error al procesar la solicitud en la base de datos.");
-        
             }
+            
         }
     }
 ?>
